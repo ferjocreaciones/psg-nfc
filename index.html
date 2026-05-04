@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PSG NFC</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg, #09142b, #c8102e);
+    color: #fff;
+    text-align: center;
+}
+
+.container {
+    padding: 20px;
+}
+
+/* TARJETA */
+.card-fc {
+    position: relative;
+    width: 90%;
+    max-width: 320px;
+    height: 480px;
+    margin: 20px auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 
+        0 0 25px rgba(199, 0, 57, 0.6),
+        0 0 40px rgba(0, 34, 68, 0.8);
+}
+
+/* FONDO */
+.card-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(9,20,43,0.95),
+            rgba(199,0,57,0.92)
+        ),
+        radial-gradient(
+            circle at top,
+            rgba(255,255,255,0.15),
+            transparent 60%
+        );
+    z-index: 1;
+}
+
+/* DETALLE CENTRAL PSG */
+.card-bg::after {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border: 3px solid rgba(255,255,255,0.08);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -45%);
+}
+
+/* IMAGEN PRINCIPAL */
+.card-player {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-height: 300px;
+    object-fit: contain;
+    z-index: 2;
+}
+
+/* INFO ABAJO */
+.card-info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(
+        180deg,
+        transparent,
+        rgba(0,0,0,0.88)
+    );
+    z-index: 3;
+    color: white;
+}
+
+.card-name {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.card-details {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 16px;
+    margin-top: 8px;
+}
+
+.card-details span {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 5px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(4px);
+}
+
+/* BOTONES */
+.btn {
+    display: block;
+    margin: 10px auto;
+    padding: 15px;
+    width: 90%;
+    max-width: 400px;
+    background: linear-gradient(135deg, #09142b, #c8102e);
+    color: white;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 12px;
+    font-size: 16px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+/* BOTÓN PREMIUM */
+.btn-premium {
+    display: block;
+    width: 90%;
+    max-width: 320px;
+    margin: 25px auto;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+
+    background: linear-gradient(
+        135deg,
+        #09142b,
+        #004170,
+        #c8102e,
+        #09142b
+    );
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    box-shadow:
+        0 0 15px rgba(199, 0, 57, 0.5),
+        0 0 30px rgba(0, 65, 112, 0.4);
+
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-premium:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 25px rgba(199, 0, 57, 0.8),
+        0 0 45px rgba(0, 65, 112, 0.6);
+}
+
+/* BRILLO */
+.btn-premium::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -75%;
+    width: 50%;
+    height: 100%;
+    background: rgba(255,255,255,0.3);
+    transform: skewX(-20deg);
+    animation: brillo 3s infinite;
+}
+
+@keyframes brillo {
+    0% { left: -75%; }
+    100% { left: 125%; }
+}
+
+/* SEPARADOR */
+.separador {
+    width: 100%;
+    height: 8px;
+    background: linear-gradient(
+        90deg,
+        #09142b,
+        #ffffff,
+        #c8102e
+    );
+    margin: 25px 0;
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(255,255,255,0.15);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- TARJETA -->
+<div class="card-fc">
+    <div class="card-bg"></div>    
+
+    <img src="vitinha.png" id="player-img" class="card-player">
+
+    <div class="card-info">
+        <div class="card-name" id="player-name">Vitinha</div>
+
+        <div class="card-details">
+            <span id="player-position">MED</span>
+            <span id="player-number">17</span>
+        </div>
+    </div>
+</div>
+
+<!-- BOTONES PREMIUM -->
+<div id="premium-container">
+    <a id="btn-premium-1" class="btn-premium" href="https://www.instagram.com/vitinha/" target="_blank">⭐ Instagram</a>
+
+    <a id="btn-premium-2" class="btn-premium" href="https://www.youtube.com/results?search_query=vitinha+psg+skills" target="_blank">🎥 Highlights</a>
+
+    <a id="btn-premium-3" class="btn-premium" href="https://www.google.com/search?q=vitinha+estadisticas+psg" target="_blank">📊 Estadísticas</a>
+</div>
+
+<div class="separador"></div>
+
+<a class="btn" href="https://www.psg.fr/" target="_blank">🌐 Sitio Oficial PSG</a>
+
+<a class="btn" href="https://www.youtube.com/@PSG" target="_blank">▶️ YouTube Oficial</a>
+
+<a class="btn" href="https://www.instagram.com/psg/" target="_blank">📸 Instagram Oficial</a>
+
+<a class="btn" href="https://billetterie.psg.fr/" target="_blank">🎟️ Boletos</a>
+
+<a class="btn" href="https://store.psg.fr/" target="_blank">🛒 Tienda Oficial</a>
+
+<div class="separador"></div>
+
+<a class="btn" href="https://www.google.com/search?q=psg+proximo+partido" target="_blank">📅 Próximo Partido</a>
+
+<a class="btn" href="https://www.google.com/search?q=psg+calendario" target="_blank">🗓️ Calendario</a>
+
+<a class="btn" href="https://www.google.com/search?q=tabla+ligue+1" target="_blank">📊 Tabla Ligue 1</a>
+
+<div class="separador"></div>
+
+<a class="btn" href="https://www.google.com/search?q=psg+champions+league" target="_blank">🏆 Champions League</a>
+
+<a class="btn" href="https://www.google.com/search?q=uefa+champions+league+standings" target="_blank">📋 Tabla Champions</a>
+
+<a class="btn" href="https://www.google.com/search?q=palmares+psg" target="_blank">🏅 Palmarés PSG</a>
+
+<div class="separador"></div>
+
+<a class="btn" href="https://www.google.com/search?q=psg+vs+marseille+historial" target="_blank">⚔️ Le Classique</a>
+
+</div>
+
+<script>
+const jugadores = {
+    vitinha: {
+        nombre: "Vitinha",
+        numero: "17",
+        posicion: "MED",
+        imagen: "vitinha.png",
+        links: [
+            "https://www.instagram.com/vitinha/",
+            "https://www.youtube.com/results?search_query=vitinha+psg+skills",
+            "https://www.google.com/search?q=vitinha+estadisticas+psg"
+        ]
+    },
+
+    dembele: {
+        nombre: "Ousmane Dembele",
+        numero: "10",
+        posicion: "DEL",
+        imagen: "dembele.png",
+        links: [
+            "https://www.instagram.com/o.dembele7/",
+            "https://www.youtube.com/results?search_query=dembele+psg+skills",
+            "https://www.google.com/search?q=dembele+estadisticas+psg"
+        ]
+    },
+
+    hakimi: {
+        nombre: "Achraf Hakimi",
+        numero: "2",
+        posicion: "DEF",
+        imagen: "hakimi.png",
+        links: [
+            "https://www.instagram.com/achrafhakimi/",
+            "https://www.youtube.com/results?search_query=hakimi+psg+skills",
+            "https://www.google.com/search?q=hakimi+estadisticas+psg"
+        ]
+    }
+};
+
+const params = new URLSearchParams(window.location.search);
+const jugador = params.get("jugador");
+
+if (jugadores[jugador]) {
+    document.getElementById("player-name").innerText = jugadores[jugador].nombre;
+    document.getElementById("player-number").innerText = jugadores[jugador].numero;
+    document.getElementById("player-position").innerText = jugadores[jugador].posicion;
+    document.getElementById("player-img").src = jugadores[jugador].imagen;
+
+    document.getElementById("btn-premium-1").href = jugadores[jugador].links[0];
+    document.getElementById("btn-premium-2").href = jugadores[jugador].links[1];
+    document.getElementById("btn-premium-3").href = jugadores[jugador].links[2];
+}
+</script>
+
+</body>
+</html>
